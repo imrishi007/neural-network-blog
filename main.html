@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Magic Behind Neural Networks</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;600&display=swap" rel="stylesheet">
+    <script defer src="script.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" id="MathJax-script"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" id="MathJax-script"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/js/all.min.js" crossorigin="anonymous"></script>
+
+</head>
+<body>
+  <div class="menu-btn">&#9776;</div>
+  <nav class="sidebar">
+      <ul>
+          <li><a href="#intro">Introduction</a></li>
+          <li><a href="#what-is-nn">What is a Neural Network?</a></li>
+          <li><a href="#building-blocks">Building Blocks of Neural Networks</a></li>
+          <li><a href="#network-structure">Neural Network Structure</a></li>
+          <li><a href="#how-learn">How Neural Networks Learn</a></li>
+          <li><a href="#forward-prop">Forward Propagation</a></li>
+          <li><a href="#loss-function">Loss Function</a></li>
+          <li><a href="#backpropagation">Backpropagation & Gradient Descent</a></li>
+          <li><a href="#applications">Applications of Neural Networks</a></li>
+          <li><a href="#conclusion">Conclusion</a></li>
+      </ul>
+  </nav>
+  
+    <button class="theme-toggle">🌙</button>
+
+    <header>
+        <h1>The Magic Behind Neural Networks</h1>
+    </header>
+
+    <main>
+        <section id="intro">
+            <h2>Introduction</h2>
+            <p>A few years ago, several groundbreaking AI models like GPTs started emerging, and, like everyone else, I was obsessed with using them for my own projects...</p>
+            <p>In this blog, I’ll share my journey of understanding neural networks from the ground up, breaking down concepts in a way that’s easy to follow...</p>
+        </section>
+
+        <section id="what-is-nn">
+            <h2>What Actually Is a Neural Network?</h2>
+            <p>Let's kick things off with a fun exercise. Picture this: you're shown a blurry image of a number—say, a fuzzy outline of a "9."</p>
+            <img src="media/nine.png" alt="Blurry number 9">
+            <p>So, what do you see? Probably a "9," right? Even though the image isn’t crystal clear, your brain leaps into action...</p>
+        </section>
+        <section id="building-blocks">
+          <h2>Building Blocks of Neural Networks</h2>
+          <p>
+            Now that we've taken a peek at the <strong>big picture</strong>, let's break down what goes into building a neural network. Think of it like assembling your favorite sandwich—each ingredient adds its own flavor and purpose. In our case, the <strong>"ingredients"</strong> are <strong>neurons</strong>, <strong>layers</strong>, <strong>weights</strong>, and <strong>biases</strong>, all coming together to make a model that can learn and decide. Let's understand each one of them—starting with the most basic element: the <strong>neuron</strong>.
+          </p>
+        
+          <h3>Neurons</h3>
+          <p>
+            <strong>Neurons</strong> are the fundamental units of a neural network—they’re essentially the <strong>decision makers</strong>. In a computer, these neurons are represented by numbers, typically values between <strong>0</strong> and <strong>1</strong>, which capture the information we feed into the network. Think of these numbers as tiny <strong>messengers</strong> that carry bits of information from one layer to the next.
+          </p>
+          <p>
+            <img src="media/neuralnetworks.png" alt="Diagram of Neural Networks" style="max-width:100%; height:auto;">
+          </p>
+          <p>
+            For example, imagine you have an image that is <strong>40 by 40 pixels</strong>. Each pixel in this image has a brightness value, which can be normalized to a number between 0 and 1. If you consider each pixel as a neuron, then your input layer for this image would consist of <strong>1,600 neurons</strong> (since 40 × 40 = 1,600). Each neuron stores the brightness information of its corresponding pixel.
+          </p>
+          <p>
+            As the data flows through the network, it doesn’t just pass through unchanged. Instead, it is processed in successive layers. In these <strong>hidden layers</strong>, the network begins to extract patterns and features from the raw data. Often, the number of neurons decreases with each layer, as the network condenses the information into a more abstract form. By the time the data reaches the final layer, you might have a much smaller set of neurons—say, <strong>10 neurons</strong> for a digit recognition task. Each of these final neurons represents one of the digits from <strong>0 to 9</strong>. The neuron that ends up with the highest activation is typically interpreted as the network's prediction for what digit the image represents.
+          </p>
+          <p>
+            This gradual reduction—from a high number of neurons capturing detailed, raw data, down to a few neurons representing abstract, classified concepts—is a core principle of how neural networks function. Every neuron in the network plays a role in transforming the input data into a decision or prediction.
+          </p>
+          
+        
+          <h2>Activation Functions: The Decision-Making Helpers</h2>
+          <p>
+            So, we know that <strong>neurons</strong> are the decision-makers of a neural network. But what actually helps those neurons decide whether to <strong>fire</strong> or not? That's where <strong>activation functions</strong> come into play.
+          </p>
+          <p>
+            Imagine a neuron gathering a bunch of inputs, each weighted differently, and summing them all up. Without an activation function, this sum would just be a linear combination—hardly enough to capture the intricate patterns in data. Activation functions add the essential twist of <strong>non-linearity</strong>, allowing neurons to make more nuanced decisions.
+          </p>
+        
+          <h3>Sigmoid Activation Function</h3>
+          <p>
+            The <strong>sigmoid function</strong> takes any input and squashes it into a smooth curve that ranges between <strong>0</strong> and <strong>1</strong>. Think of it like a <strong>dimmer switch</strong> for a light: as the input increases, the output gradually moves from "off" (close to 0) to "fully on" (close to 1). For example, if a neuron receives a sum of inputs that’s just barely enough to pass a threshold, the sigmoid function might output a value like <strong>0.4</strong>, indicating a partial activation. This is useful for tasks like <strong>binary classification</strong>, where you want to interpret the output as a probability.
+          </p>
+          <p>
+            <em>Example:</em> Imagine you're deciding whether to go outside based on the weather. If it's barely cloudy, you might be 40% sure it's going to be a good day—just like the sigmoid function outputting 0.4 for a borderline case.
+          </p>
+          <p>
+            <div class="formula">
+              \( \sigma(x) = \frac{1}{1 + e^{-x}} \)
+            </div>
+          </p>
+          <p>
+            <video controls style="max-width:100%; height:auto;">
+              <source src="media/SigmoidAnimation.mp4" type="video/mp4">
+              Your browser does not support the video tag.
+            </video>
+          </p>
+        
+          <h3>ReLU (Rectified Linear Unit)</h3>
+          <p>
+            On the other hand, <strong>ReLU</strong> (Rectified Linear Unit) is a bit more straightforward. ReLU outputs <strong>0</strong> for any negative input and simply passes through positive values unchanged. It's like a gate that only opens when the input is positive. This helps the network learn faster because it avoids some of the complications that come with smoothly varying outputs. However, if a neuron consistently receives negative inputs, it might "<strong>die</strong>"—meaning it stops contributing to the network because it always outputs 0.
+          </p>
+          <p>
+            <em>Example:</em> Imagine a sensor that only reacts to sunlight. If the input (amount of light) is negative (or too dim), it stays off (0 output). But as soon as the light is bright enough, it instantly starts recording the exact amount of brightness. That’s how ReLU behaves—simple and effective for capturing the necessary signals.
+          </p>
+          <p>
+            In summary, activation functions like <strong>sigmoid</strong> and <strong>ReLU</strong> are critical because they empower neurons to process the weighted inputs in a meaningful way, ultimately allowing the neural network to learn and make complex decisions.
+          </p>
+          <p>
+            <div class="formula">
+              \( \text{ReLU}(x) = \max(0, x) \)
+            </div>
+          </p>
+          <p>
+            <video controls style="max-width:100%; height:auto;">
+              <source src="media/ReLUFunction.mp4" type="video/mp4">
+              Your browser does not support the video tag.
+            </video>
+          </p>
+        </section>
+        <section id="network-structure">
+          <h2>Building Blocks of Neural Networks</h2>
+          <p>
+            Now that we understand <strong>neurons</strong> and <strong>activation functions</strong>, let’s talk about how neurons are structured inside a network and what really makes them <strong>learn</strong>. Neural networks are not just a random collection of neurons; they are organized into <strong>layers</strong>, and the real magic happens when neurons interact through <strong>weights</strong> and <strong>biases</strong>.
+          </p>
+          
+          <h3>But what are Layers??</h3>
+          <p>
+            Imagine a neural network as a multi-layered cake (or a burger, if you’re hungry). Each layer has a specific purpose, and the information flows through them in sequence:
+          </p>
+          <ul>
+            <li><strong>Input Layer:</strong> The very first layer where raw data is fed into the network. If we have a 40×40 image, we will have <strong>1,600 neurons</strong> in the input layer, each holding a pixel value (brightness between 0 and 1).</li>
+            <li><strong>Hidden Layers:</strong> These are the layers between input and output, where actual computation happens. Each neuron in a hidden layer takes inputs from the previous layer, processes them, and passes the result to the next layer. This is where the network starts to recognize patterns in data.</li>
+            <li><strong>Output Layer:</strong> The final layer that gives the network’s prediction. In our digit recognition example, the output layer might have <strong>10 neurons</strong> (one for each digit from 0 to 9), with the neuron having the highest activation indicating the predicted number.</li>
+          </ul>
+          
+          <p>
+            <video controls style="max-width:100%; height:auto;">
+              <source src="media/NeuralNetworkScene.mp4" type="video/mp4">
+              Your browser does not support the video tag.
+            </video>
+          </p>
+          
+          <p>
+            The more hidden layers we have, the deeper the network—hence the term <strong>deep learning</strong>.
+          </p>
+          <p>
+            But how do these layers actually work? What makes a neuron decide how much influence it should have on the next layer? This is where <strong>weights</strong> and <strong>biases</strong> come into play.
+          </p>
+          <p>
+            Each connection between neurons carries a <strong>weight</strong>, which determines the <strong>importance</strong> of that connection. If a neuron in the hidden layer receives input from multiple neurons in the previous layer, it doesn’t treat all inputs equally—it gives more importance to some and less to others. These weights act like <strong>volume knobs</strong>, amplifying or reducing the signal strength before passing it forward. Initially, these weights are set randomly, but as the network learns, they get fine-tuned to make better predictions.
+          </p>
+          <p>
+            But sometimes, just using weights isn’t enough. Even if an input is weak, it might still need to activate a neuron in order for the network to learn properly. That’s where <strong>biases</strong> come in. A bias is like an additional boost that shifts the <strong>activation threshold</strong> of a neuron, ensuring that it fires even when the weighted input alone isn’t sufficient. Think of it as adjusting the <strong>baseline</strong> of a scale—sometimes, you need to tweak the starting point so that small signals don’t get ignored.
+          </p>
+          <p>
+            With layers organizing the network, weights determining the strength of connections, and biases fine-tuning activations, a neural network gradually learns to transform raw data into meaningful decisions.
+          </p>
+        </section>
+        
+        <section id="how-learn">
+          <h2>How Neural Networks Learn</h2>
+          <p>
+            Okay, so we’ve got neurons, layers, weights, and biases all set up. But how do these networks actually learn? Do they just wake up one day and magically understand everything? Nope, they go through a process—just like us when we’re trying to learn a new skill (except they don’t procrastinate like we do).
+          </p>
+        </section>
+        <section id="forward-prop">
+          <h2>Forward Propagation</h2>
+          <p>
+            Imagine you show our neural network a <strong>40×40 pixel image</strong> of a "9". It doesn’t see the 9 like we do; instead, it just gets a long list of numbers (pixel brightness values). Now, these numbers travel layer by layer, getting multiplied by <strong>weights</strong>, tweaked by <strong>biases</strong>, and transformed by <strong>activation functions</strong>. Finally, the network spits out an answer—ideally "9" (but sometimes something completely wrong, like "4" or "potato").
+          </p>
+          <p>
+            This whole process of passing the input forward through the network is called <strong>forward propagation</strong>.
+          </p>
+          <p>
+            <video controls style="max-width:100%; height:auto;">
+              <source src="media/ForwardPropagationAnimation.mp4" type="video/mp4">
+              Your browser does not support the video tag.
+            </video>
+          </p>
+        </section>
+        
+        <section id="loss-function">
+          <h2>Loss Function: The "How Bad Did I Mess Up?" Meter</h2>
+          <p>
+            So what happens when the network gets the wrong answer? Well, we need a way to measure how bad the mistake was. That’s exactly what the <strong>loss function</strong> does—it’s like a strict teacher who marks how far off the answer was from the correct one.
+          </p>
+          <p>
+            For classification tasks (like recognizing digits), a common choice is <strong>cross-entropy loss</strong>. In simple terms, it punishes the network more when it's very confident but also very wrong—just like how life does when we overestimate our skills.
+          </p>
+        </section>
+        
+        <section id="backpropagation">
+          <h2>Backpropagation &amp; Gradient Descent</h2>
+          <p>
+            Now, knowing you made a mistake is great, but what’s next? The neural network needs to correct itself, and that’s where <strong>backpropagation</strong> comes in.
+          </p>
+          <p>
+            Backpropagation is like your brain after embarrassing yourself in public—it replays the mistake over and over, adjusting things so it doesn’t happen again. The error from the output layer is sent backward through the network, tweaking <strong>weights</strong> and <strong>biases</strong> along the way.
+          </p>
+          <p>
+            And how do we decide how much to tweak each weight? Enter <strong>gradient descent</strong>—basically, the network's way of making small, calculated changes to gradually improve. Think of it like adjusting your aim in a game; if you miss a shot, you tweak your aim slightly instead of throwing the whole controller away.
+          </p>
+          <p>
+            <video controls style="max-width:100%; height:auto;">
+              <source src="media/backpropagation.mp4" type="video/mp4">
+              Your browser does not support the video tag.
+            </video>
+          </p>
+          <p>
+            To put it all together, the learning process works like this:
+          </p>
+          <ol>
+            <li><strong>Make a guess</strong> (forward propagation).</li>
+            <li><strong>Check how wrong it is</strong> (loss function).</li>
+            <li><strong>Adjust to improve</strong> (backpropagation + gradient descent).</li>
+            <li><strong>Repeat until it gets good!</strong></li>
+          </ol>
+          <p>
+            With enough repetitions, the network stops being a clueless mess and actually gets good at recognizing patterns.
+          </p>
+        </section>
+        
+        <section id="applications">
+          <h2>Applications of Neural Networks</h2>
+          <p>
+            Okay, so we’ve built this fancy network—now what? Can it do anything cool? Absolutely! Neural networks are everywhere, and they power a ton of stuff we use daily.
+          </p>
+          <ul>
+            <li><strong>Image Recognition &amp; Computer Vision:</strong> Face unlock on your phone, self-driving cars, AI detecting if your cat is chonky or not.</li>
+            <li><strong>Natural Language Processing:</strong> Chatbots, language translators, AI-generated tweets that sound weirdly human.</li>
+            <li><strong>Speech Recognition:</strong> Siri, Google Assistant, Alexa—basically, AI that sometimes understands you and sometimes makes up random responses.</li>
+            <li><strong>Recommendation Systems:</strong> Netflix telling you what to watch next, YouTube suggesting random videos at 3 AM.</li>
+            <li><strong>Fraud Detection in Finance:</strong> Banks stopping you from buying 27 pizzas at 2 AM because "that seems suspicious."</li>
+          </ul>
+          <p>
+            Basically, if you’ve ever interacted with technology, you’ve probably used something powered by a neural network.
+          </p>
+        </section>
+        
+        <section id="conclusion">
+          <h2>Wrapping It Up: The Neural Network Journey</h2>
+          
+          <p>
+            So, what have we learned today?
+          </p>
+          <ul>
+            <li><strong>Neural networks</strong> are inspired by our brains (but they don’t overthink life decisions).</li>
+            <li>They consist of <strong>neurons</strong>, <strong>layers</strong>, <strong>weights</strong>, <strong>biases</strong>, and <strong>activation functions</strong> working together.</li>
+            <li>They learn from mistakes using <strong>forward propagation</strong>, <strong>loss functions</strong>, <strong>backpropagation</strong>, and <strong>gradient descent</strong>.</li>
+            <li>And most importantly, they power some of the coolest tech we use daily.</li>
+          </ul>
+          <p>
+            Of course, this is just scratching the surface. There’s a whole world of deep learning, convolutional neural networks, and insane AI models out there. But hey, if you made it this far, you already know more than most people do about neural networks!
+          </p>
+          <p>
+            If you’re curious and want to go even deeper, I highly recommend checking out 
+            <a href="https://www.youtube.com/watch?v=aircAruvnKk&list=PLZHQObOWTQDNU6R1_67000Dx_ZCJB-3pi" target="_blank">
+              3Blue1Brown’s Neural Networks Playlist
+            </a>
+            —his animations make even the trickiest concepts feel easy.
+          </p>
+          
+          <p>
+            Big thanks to ChatGPT for helping me write this blog! 🤖✨  
+            If it ever becomes self-aware, I just hope it remembers me as a friend…  
+            and not as *that one human who kept asking for last-minute changes.* 😅😂
+          </p>
+          
+          
+        </section>
+        <footer>
+          <div class="footer-container">
+            <p>Contact me:</p>
+            <ul class="contact-details">
+              <li>
+                <a href="mailto:rishipraval@gmail.com">
+                  <i class="fas fa-envelope"></i> rishipraval@gmail.com
+                </a>
+              </li>
+              <li>
+                <a href="https://www.linkedin.com/in/rishipraval07/" target="_blank">
+                  <i class="fab fa-linkedin"></i> LinkedIn
+                </a>
+              </li>
+              <li>
+                <a href="https://leetcode.com/u/rishipraval/" target="_blank">
+                  <img src="https://upload.wikimedia.org/wikipedia/commons/1/19/LeetCode_logo_black.png" 
+                       alt="LeetCode" class="leetcode-icon"> LeetCode
+                </a>
+              </li>
+            </ul>
+          </div>
+        </footer>
+        
+    </main>
+    <button id="back-to-top"><i class="fas fa-arrow-up"></i></button>
+
+</body>
+</html>
