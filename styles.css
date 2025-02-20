@@ -16,11 +16,18 @@ body {
 /* Header - Reduced Size */
 header {
   text-align: center;
-  padding: 1.5rem; /* Reduced from 2rem */
-  background: linear-gradient(to right, #1B4079, #153E73);
-  color: white;
-  font-size: 1.5rem; /* Decreased text size */
+  padding: 1.5rem;
+  background: #ffffff; /* White background for light mode */
+  color: #1B4079; /* Dark blue text for visibility */
+  font-size: 1.5rem;
+  transition: background 0.3s, color 0.3s;
 }
+
+.dark-mode header {
+  background: #1B4079; /* Dark blue background for dark mode */
+  color: #ffffff; /* White text for contrast */
+}
+
 
 /* Main Content */
 main {
@@ -58,10 +65,17 @@ h2:hover {
 
 /* Subheadings */
 section h3 {
-  font-size: 1.75rem;
-  margin-top: 1.5rem;
+  font-size: 1.3rem; /* Reduced size */
+  margin-top: 1.2rem;
+  font-weight: bold;
   color: #1B4079;
+  text-decoration: underline; /* Highlighting effect */
 }
+
+.dark-mode section h3 {
+  color: #66b2ff;
+}
+
 
 .dark-mode section h3 {
   color: #66b2ff;
@@ -339,4 +353,15 @@ footer .contact-details a:hover {
 
 .dark-mode #back-to-top:hover {
   background: #99c2ff;
+}
+
+
+.author {
+  font-size: 1.2rem;
+  font-weight: 400;
+  color: #1B4079; /* Darker blue for visibility in light mode */
+}
+
+.dark-mode .author {
+  color: #66b2ff; /* Light blue for dark mode */
 }
